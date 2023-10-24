@@ -253,8 +253,8 @@ else
 	fi
 	echo
 	echo "Which protocol do you want for OpenVPN connections?"
-	echo "   1) UDP (recommended)"
-	echo "   2) TCP"
+	echo "   1) UDP"
+	echo "   2) TCP (Recommended to be able to connect from office)"
 	read -p "Protocol [1]: " protocol
 	until [[ -z "$protocol" || "$protocol" =~ ^[12]$ ]]; do
 		echo "$protocol: invalid selection."
@@ -270,12 +270,12 @@ else
 	esac
 	echo
 	echo "What port do you want OpenVPN listening to?"
-	read -p "Port [1194]: " port
+	read -p "Port [8443]: " port
 	until [[ -z "$port" || "$port" =~ ^[0-9]+$ && "$port" -le 65535 ]]; do
 		echo "$port: invalid selection."
-		read -p "Port [1194]: " port
+		read -p "Port [8443]: " port
 	done
-	[[ -z "$port" ]] && port="1194"
+	[[ -z "$port" ]] && port="8443"
 	echo
 	echo "Which DNS do you want to use with the VPN?"
 	echo "   1) Current system resolvers"
@@ -462,7 +462,7 @@ WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-iptables.service
 		systemctl enable --now openvpn-iptables.service
 	fi
 	# If SELinux is enabled and a custom port was selected, we need this
-	if sestatus 2>/dev/null | grep "Current mode" | grep -q "enforcing" && [[ "$port" != 1194 ]]; then
+	if sestatus 2>/dev/null | grep "Current mode" | grep -q "enforcing" && [[ "$port" != 8443 ]]; then
 		# Install semanage if not already present
 		if ! hash semanage 2>/dev/null; then
 			if grep -qs "CentOS Linux release 7" "/etc/centos-release"; then
