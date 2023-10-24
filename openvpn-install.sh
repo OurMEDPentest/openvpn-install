@@ -253,8 +253,8 @@ else
 	fi
 	echo
 	echo "Which protocol do you want for OpenVPN connections?"
-	echo "   1) UDP"
-	echo "   2) TCP (Recommended to be able to connect from office)"
+	echo "   1) TCP (Recommended to be able to connect from office)"
+	echo "   2) UDP"
 	read -p "Protocol [1]: " protocol
 	until [[ -z "$protocol" || "$protocol" =~ ^[12]$ ]]; do
 		echo "$protocol: invalid selection."
@@ -262,10 +262,10 @@ else
 	done
 	case "$protocol" in
 		1|"")
-		protocol=udp
+		protocol=tcp
 		;;
 		2)
-		protocol=tcp
+		protocol=udp
 		;;
 	esac
 	echo
